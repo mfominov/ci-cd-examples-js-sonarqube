@@ -11,7 +11,7 @@ node ('dockerhost') {
         docker.image('docker.art.lmru.tech/node:10-stretch').inside() { c ->
             withNPM(npmrcConfig: 'devops_npmrc_art') {
                 withCredentials([string(credentialsId: 'sonarqube_token', variable: 'sonarqube_token')]) {
-                    sh """npm ci
+                    sh """npm ci --registry https://art.lmru.tech/api/npm/npm/
                           echo -e '\nsonar.login='\$(echo -n '$sonarqube_token') >> ./sonar-project.properties
                           npm run sonar"""
                 }
